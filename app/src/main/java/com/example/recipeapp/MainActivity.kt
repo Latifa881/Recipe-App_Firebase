@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -14,7 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
-    lateinit var tvAddNewRecipe: TextView
+    lateinit var ivAddNewRecipe: ImageView
     lateinit var rvMain: RecyclerView
     val detailsInfo = arrayListOf<Recipes.RecipeDetails>()
 
@@ -22,12 +23,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        tvAddNewRecipe = findViewById(R.id.tvAddNewRecipe)
+        ivAddNewRecipe = findViewById(R.id.ivAddNewRecipe)
         rvMain = findViewById(R.id.rvMain)
         //RecyclerView
         rvMain.adapter = RecyclerViewAdapter(detailsInfo)
         rvMain.layoutManager = LinearLayoutManager(applicationContext)
-        tvAddNewRecipe.setOnClickListener {
+        ivAddNewRecipe.setOnClickListener {
             val intent = Intent(this, AddRecipeDetailsActivity::class.java)
             startActivity(intent)
         }

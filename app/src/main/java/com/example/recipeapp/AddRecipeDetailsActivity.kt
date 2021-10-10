@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,8 +16,8 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
     lateinit var etAuthor: EditText
     lateinit var etIngredients: EditText
     lateinit var etInstructions: EditText
-    lateinit var btSave: Button
-    lateinit var btView: Button
+    lateinit var btSave: ImageView
+    lateinit var btView: ImageView
     var title = ""
     var author = ""
     var ingredients = ""
