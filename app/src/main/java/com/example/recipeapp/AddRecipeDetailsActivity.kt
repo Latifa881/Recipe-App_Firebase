@@ -44,7 +44,7 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
                 etIngredients.setText("")
                 etInstructions.setText("")
             } else {
-                Toast.makeText(this, "Enter a name and location", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Enter a all the information", Toast.LENGTH_SHORT).show()
             }
         }
         btView.setOnClickListener {
