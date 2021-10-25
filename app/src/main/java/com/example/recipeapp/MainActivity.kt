@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("TAG", response.code().toString() + "")
                     for(data in response.body()!!){
                         detailsInfo.add(Recipes.RecipeDetails(data.title,data.author,data.ingredients,data.instructions))
+
                     }
                     rvMain.adapter!!.notifyDataSetChanged()
 
@@ -59,6 +61,7 @@ class MainActivity : AppCompatActivity() {
 
                 override fun onFailure(call: Call<List<Recipes.RecipeDetails>>, t: Throwable) {
                     progressDialog.dismiss()
+
                     call.cancel()
                 }
             })

@@ -64,7 +64,7 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
                         call: Call<List<Recipes.RecipeDetails>>,
                         response: Response<List<Recipes.RecipeDetails>>
                     ) {
-
+                        Toast.makeText(this@AddRecipeDetailsActivity,"Added",Toast.LENGTH_SHORT).show()
                     }
 
                     override fun onFailure(call: Call<List<Recipes.RecipeDetails>>, t: Throwable) {
