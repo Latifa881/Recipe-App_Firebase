@@ -18,6 +18,7 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
     lateinit var etInstructions: EditText
     lateinit var btSave: ImageView
     lateinit var btView: ImageView
+    val recipesDB by lazy {RecipesDatabase.getInstance(applicationContext).recipesDao() }
     var title = ""
     var author = ""
     var ingredients = ""
@@ -37,7 +38,7 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
             ingredients = etIngredients.text.toString()
             instructions = etInstructions.text.toString()
             if (title.isNotEmpty() && author.isNotEmpty() && ingredients.isNotEmpty() && instructions.isNotEmpty()) {
-                addDetails()
+                addDetails(title,author,ingredients,instructions)
                 Toast.makeText(applicationContext, "Save success", Toast.LENGTH_SHORT).show()
                 etTitle.setText("")
                 etAuthor.setText("")
@@ -55,23 +56,8 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
 
     }
 
-    fun addDetails() {
-        val apiInterface = APIClient().getClient()?.create(APIInterface::class.java)
-        if (apiInterface != null) {
-            apiInterface.addDetails(Recipes.RecipeDetails(title, author, ingredients, instructions))
-                .enqueue(object : Callback<List<Recipes.RecipeDetails>> {
-                    override fun onResponse(
-                        call: Call<List<Recipes.RecipeDetails>>,
-                        response: Response<List<Recipes.RecipeDetails>>
-                    ) {
-                        Toast.makeText(this@AddRecipeDetailsActivity,"Added",Toast.LENGTH_SHORT).show()
-                    }
-
-                    override fun onFailure(call: Call<List<Recipes.RecipeDetails>>, t: Throwable) {
-                        call.cancel()
-                    }
-                })
-
-        }
+    fun addDetails(title:String,author:String,ingredients:String,instructions:String) {
+        recipesDB.insertRecipe(Recipes(0,title, author, ingredients, instructions))
+        Toast.makeText(this,"Recipe is added successfully",Toast.LENGTH_SHORT).show()
     }
 }

@@ -18,7 +18,8 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     lateinit var ivAddNewRecipe: ImageView
     lateinit var rvMain: RecyclerView
-    val detailsInfo = arrayListOf<Recipes.RecipeDetails>()
+    val recipesInfo = arrayListOf<Recipes>()
+    val recipesDB by lazy {RecipesDatabase.getInstance(applicationContext).recipesDao() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,48 +27,20 @@ class MainActivity : AppCompatActivity() {
 
         ivAddNewRecipe = findViewById(R.id.ivAddNewRecipe)
         rvMain = findViewById(R.id.rvMain)
-        //RecyclerView
-        rvMain.adapter = RecyclerViewAdapter(detailsInfo)
+        rvMain.adapter = RecyclerViewAdapter(recipesInfo,this)
         rvMain.layoutManager = LinearLayoutManager(applicationContext)
+
         ivAddNewRecipe.setOnClickListener {
             val intent = Intent(this, AddRecipeDetailsActivity::class.java)
             startActivity(intent)
         }
 
-        getDetails()
+        getRecipesDetails()
     }
-    fun getDetails() {
-        val progressDialog = ProgressDialog(this@MainActivity)
-        progressDialog.setMessage("Please wait")
-        progressDialog.show()
-
-        val apiInterface = APIClient().getClient()?.create(APIInterface::class.java)
-
-        if (apiInterface != null) {
-            apiInterface.getDetails()?.enqueue(object : Callback<List<Recipes.RecipeDetails>> {
-                override fun onResponse(
-                    call: Call<List<Recipes.RecipeDetails>>,
-                    response: Response<List<Recipes.RecipeDetails>>
-                ) {
-                    progressDialog.dismiss()
-                    Log.d("TAG", response.code().toString() + "")
-                    for(data in response.body()!!){
-                        detailsInfo.add(Recipes.RecipeDetails(data.title,data.author,data.ingredients,data.instructions))
-
-                    }
-                    rvMain.adapter!!.notifyDataSetChanged()
-
-                }
-
-                override fun onFailure(call: Call<List<Recipes.RecipeDetails>>, t: Throwable) {
-                    progressDialog.dismiss()
-
-                    call.cancel()
-                }
-            })
+    fun getRecipesDetails() {
+        recipesInfo.clear()
+        recipesInfo.addAll(recipesDB.getAllRecipes())
+        rvMain.adapter!!.notifyDataSetChanged()
         }
 
-
-
-    }
 }

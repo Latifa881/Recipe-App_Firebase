@@ -4,76 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background2"
     android:orientation="vertical"
-    android:layout_margin="50dp"
+
     tools:context=".AddRecipeDetailsActivity">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Title:"
-        android:textSize="24dp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter the title of the recipe "
-        android:id="@+id/etTitle"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Author:"
-        android:textSize="24dp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter the name of the author"
-        android:id="@+id/etAuthor"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/black"
-        android:text="Ingredients:"
-        android:textSize="24dp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter the ingredients of the recipe"
-        android:id="@+id/etIngredients"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/black"
-        android:text="Instructions:"
-        android:textSize="24dp" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter the instructions of the recipe"
-        android:id="@+id/etInstructions"/>
     <LinearLayout
-        android:layout_gravity="center"
         android:gravity="center"
+        android:paddingBottom="50dp"
+        android:paddingTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/save"
-        android:layout_marginRight="10dp"
-        android:id="@+id/btSave"/>
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/view"
-        android:id="@+id/btView"
-        />
+        android:layout_margin="50dp"
+        android:background="#b3e0ff"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Title:"
+            android:textColor="@color/black"
+            android:textSize="24dp" />
+
+        <EditText
+            android:id="@+id/etTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the title of the recipe " />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Author:"
+            android:textColor="@color/black"
+            android:textSize="24dp" />
+
+        <EditText
+            android:id="@+id/etAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the name of the author" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingredients:"
+            android:textColor="@color/black"
+            android:textSize="24dp" />
+
+        <EditText
+            android:id="@+id/etIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the ingredients of the recipe" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Instructions:"
+            android:textColor="@color/black"
+            android:textSize="24dp" />
+
+        <EditText
+            android:id="@+id/etInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the instructions of the recipe" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btSave"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/save" />
+
+            <ImageView
+                android:id="@+id/btView"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/view" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
