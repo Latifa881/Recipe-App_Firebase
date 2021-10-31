@@ -1,5 +1,6 @@
 package com.example.recipeapp
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 
 //Data Access Object
@@ -7,7 +8,7 @@ import androidx.room.*
 interface RecipesDao {
 
     @Query("SELECT * FROM Recipes ")
-    fun getAllRecipes(): List<Recipes>
+    fun getAllRecipes(): LiveData<List<Recipes>>
     @Insert
     fun insertRecipe(recipe: Recipes)
     @Update

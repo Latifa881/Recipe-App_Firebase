@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,7 +19,7 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
     lateinit var etInstructions: EditText
     lateinit var btSave: ImageView
     lateinit var btView: ImageView
-    val recipesDB by lazy {RecipesDatabase.getInstance(applicationContext).recipesDao() }
+  private val myViewModel by lazy { ViewModelProvider(this).get(MyViewModel::class.java) }
     var title = ""
     var author = ""
     var ingredients = ""
@@ -57,7 +58,7 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
     }
 
     fun addDetails(title:String,author:String,ingredients:String,instructions:String) {
-        recipesDB.insertRecipe(Recipes(0,title, author, ingredients, instructions))
+        myViewModel.addRecipe(Recipes(0,title, author, ingredients, instructions))
         Toast.makeText(this,"Recipe is added successfully",Toast.LENGTH_SHORT).show()
     }
 }

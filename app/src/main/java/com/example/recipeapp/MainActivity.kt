@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -18,8 +19,8 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
     lateinit var ivAddNewRecipe: ImageView
     lateinit var rvMain: RecyclerView
-    val recipesInfo = arrayListOf<Recipes>()
-    val recipesDB by lazy {RecipesDatabase.getInstance(applicationContext).recipesDao() }
+
+    private val myViewModel by lazy { ViewModelProvider(this).get(MyViewModel::class.java) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,20 +28,18 @@ class MainActivity : AppCompatActivity() {
 
         ivAddNewRecipe = findViewById(R.id.ivAddNewRecipe)
         rvMain = findViewById(R.id.rvMain)
-        rvMain.adapter = RecyclerViewAdapter(recipesInfo,this)
-        rvMain.layoutManager = LinearLayoutManager(applicationContext)
+
+        myViewModel.getAllRecipes().observe(this,{recipes->
+            rvMain.adapter = RecyclerViewAdapter(recipes,this)
+            rvMain.layoutManager = LinearLayoutManager(applicationContext)
+        }
+        )
 
         ivAddNewRecipe.setOnClickListener {
             val intent = Intent(this, AddRecipeDetailsActivity::class.java)
             startActivity(intent)
         }
 
-        getRecipesDetails()
     }
-    fun getRecipesDetails() {
-        recipesInfo.clear()
-        recipesInfo.addAll(recipesDB.getAllRecipes())
-        rvMain.adapter!!.notifyDataSetChanged()
-        }
 
 }

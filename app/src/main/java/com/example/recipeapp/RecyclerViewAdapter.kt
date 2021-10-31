@@ -10,15 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.edit_delete_recipe_details.view.*
 import kotlinx.android.synthetic.main.item_row.view.*
 
-class RecyclerViewAdapter(val detailsInfo: ArrayList<Recipes>,val activity:MainActivity ) :
+class RecyclerViewAdapter(val detailsInfo: List<Recipes>,val activity:MainActivity ) :
     RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    val recipesDB by lazy {RecipesDatabase.getInstance(activity).recipesDao() }
+  private val myViewModel by lazy { ViewModelProvider(activity).get(MyViewModel::class.java) }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         return ItemViewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -55,9 +56,9 @@ class RecyclerViewAdapter(val detailsInfo: ArrayList<Recipes>,val activity:MainA
                     val ingredients = dialogView.etEditIngredients.text.toString()
                     val instructions = dialogView.etEditInstructions.text.toString()
                     if(title.isNotEmpty()&&author.isNotEmpty()&&ingredients.isNotEmpty()&&instructions.isNotEmpty()){
-                        recipesDB.updateRecipe(Recipes(data.id,title,author, ingredients, instructions))
+                        myViewModel.updateRecipe(Recipes(data.id,title,author, ingredients, instructions))
                         Toast.makeText(context,"Updated Successfully",Toast.LENGTH_SHORT).show()
-                        activity.getRecipesDetails()
+
                         alertDialog.dismiss()
                     }else
                     {
@@ -75,8 +76,9 @@ class RecyclerViewAdapter(val detailsInfo: ArrayList<Recipes>,val activity:MainA
 
                     //performing positive action
                     builder.setPositiveButton("Delete") { dialogInterface, which ->
-                        recipesDB.deleteRecipe(Recipes(data.id,data.title,data.author,data.ingredients,data.instructions))
-                        activity.getRecipesDetails()
+                       // recipesDB.deleteRecipe(Recipes(data.id,data.title,data.author,data.ingredients,data.instructions))
+                        myViewModel.deleteRecipe(Recipes(data.id,data.title,data.author,data.ingredients,data.instructions))
+                     //   activity.getRecipesDetails()
                         Toast.makeText(context,"Deleted Successfully",Toast.LENGTH_SHORT).show()
                         alertDialog.dismiss()
                         dialogInterface.dismiss()
