@@ -58,7 +58,7 @@ class AddRecipeDetailsActivity : AppCompatActivity() {
     }
 
     fun addDetails(title:String,author:String,ingredients:String,instructions:String) {
-        myViewModel.addRecipe(Recipes(0,title, author, ingredients, instructions))
+        myViewModel.addRecipe(Recipes("id",title, author, ingredients, instructions))
         Toast.makeText(this,"Recipe is added successfully",Toast.LENGTH_SHORT).show()
     }
 }

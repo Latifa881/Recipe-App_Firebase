@@ -25,7 +25,7 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     lateinit var ivAddNewRecipe: ImageView
-    lateinit var generatePDF:ImageView
+    lateinit var generatePDF: ImageView
     lateinit var rvMain: RecyclerView
     private val STORAGE_CODE: Int = 100
     private val myViewModel by lazy { ViewModelProvider(this).get(MyViewModel::class.java) }
@@ -36,15 +36,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         ivAddNewRecipe = findViewById(R.id.ivAddNewRecipe)
-        generatePDF=findViewById(R.id.generatePDF)
+        generatePDF = findViewById(R.id.generatePDF)
         rvMain = findViewById(R.id.rvMain)
 
-        myViewModel.getAllRecipes().observe(this,{recipes->
+        myViewModel.getRecipesData()
+        myViewModel.getAllRecipes().observe(this, { recipes ->
             myAdapter.update(recipes)
         }
         )
-        myAdapter=RecyclerViewAdapter(recipesArray,this)
-        rvMain.adapter =myAdapter
+        myAdapter = RecyclerViewAdapter(recipesArray, this)
+        rvMain.adapter = myAdapter
         rvMain.layoutManager = LinearLayoutManager(applicationContext)
 
         ivAddNewRecipe.setOnClickListener {
@@ -53,35 +54,39 @@ class MainActivity : AppCompatActivity() {
         }
         generatePDF.setOnClickListener {
             //we need to handle runtime permission for devices with marshmallow and above
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M){
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {
                 //system OS >= Marshmallow(6.0), check permission is enabled or not
                 if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_DENIED){
+                    == PackageManager.PERMISSION_DENIED
+                ) {
                     //permission was not granted, request it
                     val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     requestPermissions(permissions, STORAGE_CODE)
-                    Log.d("permissions","permissions")
-                }
-                else{
-                    Log.d("permissions","permission already granted")
+                    Log.d("permissions", "permissions")
+                } else {
+                    Log.d("permissions", "permission already granted")
                     //permission already granted, call savePdf() method
                     savePdf()
                 }
-            }
-            else{
+            } else {
 
                 //system OS < marshmallow, call savePdf() method
                 savePdf()
             }
         }
-        }
-    fun savePdf(){
+    }
+
+    fun savePdf() {
         //create object of Document class
         val mDoc = Document()
         //pdf file name
-        val mFileName = "Recipes "+SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(System.currentTimeMillis())
+        val mFileName = "Recipes_" + SimpleDateFormat(
+            "yyyyMMdd_HHmmss",
+            Locale.getDefault()
+        ).format(System.currentTimeMillis())
         //pdf file path
-        val mFilePath = File(this.externalCacheDir!!.absolutePath.toString(), "/" + mFileName +".pdf")
+        val mFilePath =
+            File(this.externalCacheDir!!.absolutePath.toString(), "/" + mFileName + ".pdf")
 
         try {
             //create instance of PdfWriter class
@@ -90,51 +95,52 @@ class MainActivity : AppCompatActivity() {
             //open the document for writing
             mDoc.open()
 
-
-           val recipes=RecipesDatabase.getInstance(this).recipesDao().getAllRecipesData()
-         for (i in recipes)
-         {
-             val recipe="Title: ${i.title}\n"+
-                     "Author: ${i.author}\n"+
-                     "Ingredients: ${i.ingredients}\n"+
-                     "Instructions: ${i.instructions}\n\n"
-             //add paragraph to the document
-             mDoc.add(Paragraph(recipe))
-         }
+            val recipes = myViewModel.getRecipesData()
+            for (i in recipes) {
+                val recipe = "Title: ${i.title}\n" +
+                        "Author: ${i.author}\n" +
+                        "Ingredients: ${i.ingredients}\n" +
+                        "Instructions: ${i.instructions}\n\n"
+                //add paragraph to the document
+                mDoc.add(Paragraph(recipe))
+            }
             //add author of the document (metadata)
             mDoc.addAuthor("Recipes App")
-
 
 
             //close document
             mDoc.close()
 
             //show file saved message with file name and path
-            Toast.makeText(this, "$mFileName.pdf\nis saved to\n$mFilePath", Toast.LENGTH_SHORT).show()
-            Log.d("PDF LOCATION","$mFilePath")
+            Toast.makeText(this, "$mFileName.pdf\nis saved to\n$mFilePath", Toast.LENGTH_SHORT)
+                .show()
+            Log.d("PDF LOCATION", "$mFilePath")
 
-        }
-        catch (e: Exception){
+        } catch (e: Exception) {
             //if anything goes wrong causing exception, get and show exception message
             Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
     }
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when(requestCode){
+        when (requestCode) {
             STORAGE_CODE -> {
-                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //permission from popup was granted, call savePdf() method
                     savePdf()
                     Toast.makeText(this, "PDF Generated", Toast.LENGTH_SHORT).show()
-                }
-                else{
+                } else {
                     //permission from popup was denied, show error message
                     Toast.makeText(this, "Permission denied...!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
     }
-    }
+}
 
 

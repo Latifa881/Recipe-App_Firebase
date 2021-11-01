@@ -71,7 +71,7 @@ class RecyclerViewAdapter(var detailsInfo: List<Recipes>,val activity:MainActivi
                     //set title for alert dialog
                     builder.setTitle("Delete Recipe")
                     //set message for alert dialog
-                    builder.setMessage("Are you sure you want to delete this recpie?")
+                    builder.setMessage("Are you sure you want to delete this recipe?\n${data.id}")
                     builder.setIcon(android.R.drawable.ic_dialog_info)
 
                     //performing positive action
