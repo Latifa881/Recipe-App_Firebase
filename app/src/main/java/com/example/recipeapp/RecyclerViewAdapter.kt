@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.edit_delete_recipe_details.view.*
 import kotlinx.android.synthetic.main.item_row.view.*
 
-class RecyclerViewAdapter(val detailsInfo: List<Recipes>,val activity:MainActivity ) :
+class RecyclerViewAdapter(var detailsInfo: List<Recipes>,val activity:MainActivity ) :
     RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder>() {
     class ItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -103,5 +103,9 @@ class RecyclerViewAdapter(val detailsInfo: List<Recipes>,val activity:MainActivi
     }
 
     override fun getItemCount() = detailsInfo.size
-
+    fun update(recipes: List<Recipes>){
+        println("UPDATING DATA")
+        this.detailsInfo = recipes
+        notifyDataSetChanged()
+    }
 }

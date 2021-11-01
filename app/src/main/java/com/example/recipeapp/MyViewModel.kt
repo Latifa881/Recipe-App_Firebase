@@ -18,6 +18,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
         return recipes
     }
 
+
     fun addRecipe(recipesObj: Recipes) {
         CoroutineScope(Dispatchers.IO).launch {
             recipesDB.insertRecipe(recipesObj)

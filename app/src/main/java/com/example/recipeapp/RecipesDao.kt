@@ -9,6 +9,8 @@ interface RecipesDao {
 
     @Query("SELECT * FROM Recipes ")
     fun getAllRecipes(): LiveData<List<Recipes>>
+    @Query("SELECT * FROM Recipes ")
+    fun getAllRecipesData(): List<Recipes>
     @Insert
     fun insertRecipe(recipe: Recipes)
     @Update

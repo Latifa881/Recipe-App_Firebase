@@ -21,4 +21,5 @@ abstract class RecipesDatabase: RoomDatabase() {
         }
     }
     abstract fun recipesDao():RecipesDao
+
 }
