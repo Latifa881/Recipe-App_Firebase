@@ -76,10 +76,7 @@ class RecyclerViewAdapter(var detailsInfo: List<Recipes>,val activity:MainActivi
 
                     //performing positive action
                     builder.setPositiveButton("Delete") { dialogInterface, which ->
-                       // recipesDB.deleteRecipe(Recipes(data.id,data.title,data.author,data.ingredients,data.instructions))
                         myViewModel.deleteRecipe(Recipes(data.id,data.title,data.author,data.ingredients,data.instructions))
-                     //   activity.getRecipesDetails()
-                        Toast.makeText(context,"Deleted Successfully",Toast.LENGTH_SHORT).show()
                         alertDialog.dismiss()
                         dialogInterface.dismiss()
 

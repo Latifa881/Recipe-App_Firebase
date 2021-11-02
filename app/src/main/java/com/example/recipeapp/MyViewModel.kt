@@ -87,7 +87,7 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
                         getRecipesData()
                     }
                     .addOnFailureListener { e ->
-                        Log.w("TAG", "Error adding document", e)
+                        Log.w("TAG", "Error updating document", e)
                     }
             }
         }
@@ -97,12 +97,13 @@ class MyViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteRecipe(recipesObj: Recipes) {
         CoroutineScope(Dispatchers.IO).launch {
 
-            db.collection("notes").document(recipesObj.id).delete()
+            db.collection("recipes").document(recipesObj.id).delete()
                 .addOnSuccessListener { documentReference ->
                     getRecipesData()
+                    Log.d("Delete TAG", " Successfully deleting document")
                 }
                 .addOnFailureListener { e ->
-                    Log.w("TAG", "Error adding document", e)
+                    Log.w("Delete TAG", "Error deleting document", e)
                 }
 
         }

@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Environment
 import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
@@ -27,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var ivAddNewRecipe: ImageView
     lateinit var generatePDF: ImageView
     lateinit var rvMain: RecyclerView
-    private val STORAGE_CODE: Int = 100
+    private val STORAGECODE: Int = 100
     private val myViewModel by lazy { ViewModelProvider(this).get(MyViewModel::class.java) }
     lateinit var myAdapter: RecyclerViewAdapter
     var recipesArray = ArrayList<Recipes>()
@@ -61,7 +60,7 @@ class MainActivity : AppCompatActivity() {
                 ) {
                     //permission was not granted, request it
                     val permissions = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    requestPermissions(permissions, STORAGE_CODE)
+                    requestPermissions(permissions, STORAGECODE)
                     Log.d("permissions", "permissions")
                 } else {
                     Log.d("permissions", "permission already granted")
@@ -80,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         //create object of Document class
         val mDoc = Document()
         //pdf file name
-        val mFileName = "Recipes_" + SimpleDateFormat(
+        val mFileName = "Recipes " + SimpleDateFormat(
             "yyyyMMdd_HHmmss",
             Locale.getDefault()
         ).format(System.currentTimeMillis())
@@ -129,7 +128,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            STORAGE_CODE -> {
+            STORAGECODE -> {
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //permission from popup was granted, call savePdf() method
                     savePdf()
